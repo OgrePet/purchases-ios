@@ -312,6 +312,10 @@ NS_SWIFT_NAME(purchasePackage(_:_:));
 - (void)restoreTransactionsWithCompletionBlock:(nullable RCReceivePurchaserInfoBlock)completion
 NS_SWIFT_NAME(restoreTransactions(_:));
 
+
+- (void)tryToRestoreTransactionsWithCompletionBlock:(nullable RCReceivePurchaserInfoBlock)completion
+NS_SWIFT_NAME(tryToRestoreTransactions(_:));
+
 /**
  Computes whether or not a user is eligible for the introductory pricing period of a given product. You should use this method to determine whether or not you show the user the normal product price or the introductory price. This also applies to trials (trials are considered a type of introductory pricing).
 

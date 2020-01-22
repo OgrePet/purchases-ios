@@ -594,6 +594,44 @@ static BOOL _automaticAppleSearchAdsAttributionCollection = NO;
     }];
 }
 
+- (void)tryToRestoreTransactionsWithCompletionBlock:(nullable RCReceivePurchaserInfoBlock)completion
+{
+    // Refresh the receipt and post to backend, this will allow the transactions to be transferred.
+    // https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/Restoring.html
+    [self receiptData:^(NSData * _Nonnull data) {
+        if (data.length == 0) {
+            if (RCIsSandbox()) {
+                RCLog(@"App running on sandbox without a receipt file. Restoring transactions won't work unless you've purchased before and there is a receipt available.");
+            }
+            CALL_AND_DISPATCH_IF_SET(completion, nil, [RCPurchasesErrorUtils missingReceiptFileError]);
+            return;
+        }
+        [self.backend postReceiptData:data
+                            appUserID:self.appUserID
+                            isRestore:NO
+                    productIdentifier:nil
+                                price:nil
+                          paymentMode:RCPaymentModeNone
+                    introductoryPrice:nil
+                         currencyCode:nil
+                    subscriptionGroup:nil
+                            discounts:nil
+          presentedOfferingIdentifier:nil
+                         observerMode:!self.finishTransactions
+                           completion:^(RCPurchaserInfo *_Nullable info, NSError *_Nullable error) {
+                               [self dispatch:^{
+                                   if (error) {
+                                       CALL_AND_DISPATCH_IF_SET(completion, nil, error);
+                                   } else if (info) {
+                                       [self cachePurchaserInfo:info forAppUserID:self.appUserID];
+                                       [self sendUpdatedPurchaserInfoToDelegateIfChanged:info];
+                                       CALL_AND_DISPATCH_IF_SET(completion, info, nil);
+                                   }
+                               }];
+                           }];
+    }];
+}
+
 - (void)checkTrialOrIntroductoryPriceEligibility:(NSArray<NSString *> *)productIdentifiers
                                  completionBlock:(RCReceiveIntroEligibilityBlock)receiveEligibility
 {
