@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)configureWithAppUserID:(nullable NSString *)appUserID;
 
-- (void)identifyAppUserID:(NSString *)appUserID withCompletionBlock:(void (^)(NSError * _Nullable error))completion;
+- (void)identifyAppUserID:(NSString *)appUserID aliasAnnymous: (BOOL) aliasAnonymous withCompletionBlock:(void (^)(NSError * _Nullable error))completion;
 
 - (void)createAlias:(NSString *)alias withCompletionBlock:(void (^)(NSError * _Nullable error))completion;
 

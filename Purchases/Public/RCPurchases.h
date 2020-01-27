@@ -205,9 +205,10 @@ NS_SWIFT_NAME(createAlias(_:_:));
 /**
  This function will identify the current user with an appUserID. Typically this would be used after a logout to identify a new user without calling configure
  @param appUserID The appUserID that should be linked to the currently user
+ @param aliasAnonymous If current user is annymous create alias with new user
  */
-- (void)identify:(NSString *)appUserID completionBlock:(nullable RCReceivePurchaserInfoBlock)completion
-NS_SWIFT_NAME(identify(_:_:));
+- (void)identify:(NSString *)appUserID aliasAnonymous: (BOOL) aliasAnonymous completionBlock:(nullable RCReceivePurchaserInfoBlock)completion
+NS_SWIFT_NAME(identify(_:aliasAnonymous:_:));
 
 /**
  * Resets the Purchases client clearing the saved appUserID. This will generate a random user id and save it in the cache.

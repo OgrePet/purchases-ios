@@ -377,12 +377,12 @@ static BOOL _automaticAppleSearchAdsAttributionCollection = NO;
     }
 }
 
-- (void)identify:(NSString *)appUserID completionBlock:(nullable RCReceivePurchaserInfoBlock)completion
+- (void)identify:(NSString *)appUserID aliasAnonymous: (BOOL) aliasAnonymous completionBlock:(nullable RCReceivePurchaserInfoBlock)completion
 {
     if ([appUserID isEqualToString:self.identityManager.currentAppUserID]) {
         [self purchaserInfoWithCompletionBlock:completion];
     } else {
-        [self.identityManager identifyAppUserID:appUserID withCompletionBlock:^(NSError *error) {
+        [self.identityManager identifyAppUserID:appUserID aliasAnnymous: aliasAnonymous withCompletionBlock:^(NSError *error) {
             if (error == nil) {
                 [self updateCachesWithCompletionBlock:completion];
             } else {

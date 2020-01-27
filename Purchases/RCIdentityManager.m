@@ -49,9 +49,9 @@
     [self saveAppUserID:appUserID];
 }
 
-- (void)identifyAppUserID:(NSString *)appUserID withCompletionBlock:(void (^)(NSError *_Nullable error))completion
+- (void)identifyAppUserID:(NSString *)appUserID aliasAnnymous: (BOOL) aliasAnonymous withCompletionBlock:(void (^)(NSError * _Nullable error))completion
 {
-    if (self.currentUserIsAnonymous) {
+    if (self.currentUserIsAnonymous && aliasAnonymous) {
         RCDebugLog(@"Identifying from an anonymous ID: %@. An alias will be created.", self.currentAppUserID);
         [self createAlias:appUserID withCompletionBlock:completion];
     } else {
