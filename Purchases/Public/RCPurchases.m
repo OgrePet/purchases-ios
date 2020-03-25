@@ -632,9 +632,10 @@ static BOOL _automaticAppleSearchAdsAttributionCollection = NO;
             if (RCIsSandbox()) {
                 RCLog(@"App running on sandbox without a receipt file. Restoring transactions won't work unless you've purchased before and there is a receipt available.");
             }
-            CALL_AND_DISPATCH_IF_SET(completion, nil, [RCPurchasesErrorUtils missingReceiptFileError]);
+            CALL_IF_SET_ON_MAIN_THREAD(completion, nil, [RCPurchasesErrorUtils missingReceiptFileError]);
             return;
         }
+        RCSubscriberAttributeDict subscriberAttributes = self.unsyncedAttributesByKey;
         [self.backend postReceiptData:data
                             appUserID:self.appUserID
                             isRestore:NO
@@ -647,14 +648,15 @@ static BOOL _automaticAppleSearchAdsAttributionCollection = NO;
                             discounts:nil
           presentedOfferingIdentifier:nil
                          observerMode:!self.finishTransactions
+                 subscriberAttributes:subscriberAttributes
                            completion:^(RCPurchaserInfo *_Nullable info, NSError *_Nullable error) {
                                [self dispatch:^{
                                    if (error) {
-                                       CALL_AND_DISPATCH_IF_SET(completion, nil, error);
+                                       CALL_IF_SET_ON_MAIN_THREAD(completion, nil, error);
                                    } else if (info) {
                                        [self cachePurchaserInfo:info forAppUserID:self.appUserID];
                                        [self sendUpdatedPurchaserInfoToDelegateIfChanged:info];
-                                       CALL_AND_DISPATCH_IF_SET(completion, info, nil);
+                                       CALL_IF_SET_ON_MAIN_THREAD(completion, info, nil);
                                    }
                                }];
                            }];
