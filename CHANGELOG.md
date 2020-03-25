@@ -1,3 +1,36 @@
+## 3.1.2
+- Added an extra method, `setPushTokenString`, to be used by multi-platform SDKs that don't 
+have direct access to the push token as `NSData *`, but rather as `NSString *`.
+    https://github.com/RevenueCat/purchases-ios/pull/208
+
+## 3.1.1
+- small fixes to docs and release scripts: 
+    - the release script was referencing a fastlane lane that was under the group ios, 
+    so it needs to be called with ios first
+    - the docs for setPushToken in RCPurchases.m say to pass an empty string or nil to erase data, 
+    however since the param is of type NSData, you can't pass in an empty string.
+    
+    https://github.com/RevenueCat/purchases-ios/pull/203
+    
+## 3.1.0
+- Added Subscriber Attributes, which allow developers to store additional, structured information 
+for a user in RevenueCat. More info: // More info: https://docs.revenuecat.com/docs/user-attributes.
+https://github.com/RevenueCat/purchases-ios/pull/196
+- Fixed an issue where the completion block of `purchaserInfoWithCompletion` would get called more than once if cached information existed and was stale. https://github.com/RevenueCat/purchases-ios/pull/199
+- Exposed `original_purchase_date`, which can be useful for migrating data for developers who don't increment the build number on every release and therefore can't rely on it being different on all releases.
+- Addressed a couple of build warnings: https://github.com/RevenueCat/purchases-ios/pull/200
+
+## 3.0.4
+- Fixed an issue where Swift Package Manager didn't pick up the new Caching group from 3.0.3 https://github.com/RevenueCat/purchases-ios/issues/176
+
+## 3.0.3
+- Added new method to invalidate the purchaser info cache, useful when promotional purchases are granted from outside the app. https://github.com/RevenueCat/purchases-ios/pull/168
+- Made sure we dispatch offerings, and purchaser info https://github.com/RevenueCat/purchases-ios/pull/146
+
+## 3.0.2
+- Fixes an issue where Apple Search Ads attribution information would be sent even if the user hadn't clicked on 
+a search ad.
+
 ## 3.0.1
 - Adds observer_mode to the backend post receipt call.
 

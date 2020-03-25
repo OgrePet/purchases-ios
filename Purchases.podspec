@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Purchases"
-  s.version          = "3.0.1"
+  s.version          = "3.1.2"
   s.summary          = "Subscription and in-app-purchase backend service."
 
   s.description      = <<-DESC
@@ -26,6 +26,10 @@ Pod::Spec.new do |s|
     'Purchases/*.m',
     'Purchases/Public/*.h',
     'Purchases/Public/*.m',
+    'Purchases/Caching/*.h',
+    'Purchases/Caching/*.m',
+    'Purchases/SubscriberAttributes/*.h',
+    'Purchases/SubscriberAttributes/*.m',
   ]
 
 
